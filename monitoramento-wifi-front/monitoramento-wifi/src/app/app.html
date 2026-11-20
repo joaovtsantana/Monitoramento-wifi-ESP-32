@@ -1,0 +1,57 @@
+<div class="container">
+  <header>
+    <h1>Monitoramento Wi-Fi</h1>
+    <p>Sistema de análise da intensidade do sinal por ambiente</p>
+  </header>
+
+  <section class="selecao">
+    <label for="coleta">Selecione uma coleta:</label>
+
+    <select id="coleta" (change)="selecionarColeta($event)">
+      <option value="">Selecione uma coleta</option>
+
+      @for (coleta of coletas; track coleta.id) {
+      <option [value]="coleta.id">
+        Coleta #{{ coleta.id }} - {{ coleta.descricao }}
+      </option>
+      }
+    </select>
+  </section>
+
+<section class="detalhes">
+  <h2>Detalhes da coleta</h2>
+
+  @if (coletaSelecionada) {
+  <div class="info-coleta">
+    <p><strong>Descrição:</strong> {{ coletaSelecionada.descricao }}</p>
+    <p><strong>Data:</strong> {{ coletaSelecionada.data_coleta | date:'dd/MM/yyyy HH:mm' }}</p>
+  </div>
+  }
+
+  @if (medicoes.length > 0) {
+    <table>
+      <thead>
+        <tr>
+          <th>Leitura</th>
+          <th>Ambiente</th>
+          <th>Rede</th>
+          <th>RSSI (dBm)</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (medicao of medicoes; track $index) {
+          <tr>
+            <td>{{ medicao.numero_leitura }}</td>
+            <td>{{ medicao.ambiente }}</td>
+            <td>{{ medicao.rede }}</td>
+            <td>{{ medicao.rssi }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <p>Selecione uma coleta para visualizar suas medições.</p>
+  }
+</section>
+</div>
